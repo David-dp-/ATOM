@@ -1,0 +1,176 @@
+<html>
+ <head>
+  <title>ATOM project README</title>
+ </head>
+ <body>
+  <h1>ATOM project README</h1>
+  <h2>Contents</h2>
+  <ul>
+   <li><a href="#purpose">Project Purpose</a></li>
+   <li><a href="#run">How to Run a Sample</a></li>
+   <li><a href="#output">Expected output of tests</a></li>
+   <li><a href="#credits">Credits</a></li>
+  </ul>
+  
+  <h2><a name="purpose">Project Purpose</a></h2>
+  Originally, ATOM (Automated Theory of Mind) was intended to be a rule-based simulation of how people 
+  form intentions from goals, beliefs, and other states. It also aimed to model how people monitor their 
+  progress on intentions. It was to be implemented in Prolog (for the agent reasoning parts) and in Java 
+  (for simulated physical environments for the agents, and for generating graphical views). The Prolog 
+  portion would require infrastructure that isn't built-in to Prolog in order for unit-testing to
+  be possible, and we need automated testing for the ever-larger chunks of reasoning that each agent will
+  be designed to do. Such tests require tight control of initial conditions, such as the environment, and
+  the plan was that, eventually, the Prolog unit-tester would be integrated with a parent TestNG tester 
+  in Java.</p>
+  
+  <p>At this point, ATOM is an inference engine capable of both backward and forward-chaining, and of
+  maintaining a trace of its reasoning. Such traces are used to verify the reasoning, and this aspect 
+  of the original design was achieved. However, the objective to simulate attributions of mental states,
+  particularly now when we have chosen to use simple animations like Heider and Simmel's (1944), appears
+  to require an ability to propagate constraints before committing to var bindings. For constraint
+  propagation, we are moving away from Amzi Prolog (which nonetheless has the best Prolog debugger I've
+  seen) to ECLiPSe which is another flavor of Prolog whose primary use is constraint propagation and which
+  has an active user base that includes AI researchers.</p>
+  
+  <p>We plan to continue using ATOM as the core reasoning engine of the Wayang project, which is ECLiPSe-based
+  and has already been embedded in Java (allowing for integrations such as Adobe SWF-parsing, visualizations,
+  and the TestNG testing framework).</p>
+  
+  <h2><a name="run">How to Run a Sample</a></h2>
+  <ul>
+   <li>Load ATOM/test/runTests.pro in an ECLiPSe interpreter such as TkEclipse</li>
+   <li>Loading runTests.pro will trigger a series of tests whose results will be printed in the interpreter.</li>
+   <li>The unit tests are the best illustrations of the kind of simulations/applications one might build.</li>
+   <li>If you use ATOM in another project, you probably want to load ATOM/main.pro instead, since you probably
+   don't want to run the tests every time you load the project</li>
+  </ul>
+  
+  <h2><a name="output">Expected output of tests</a></h2>
+  Ideally, this output would show just a series of items that look like this:
+  <blockquote>Running test set &lt;<em>testedPredicate/arity</em>&gt; ...  All tests succeeded.</blockquote>
+  but there are some bugs that permit lower-level debug statements to appear also. These stmts should
+  not appear unless clauses &quot;verboseFlag(rTrace)&quot; and &quot;hideAppNoticesFlag&quot; are present in 
+  working memory. The key indicator of success is that all of the test predicates actually are performed
+  (indicated by &quot;Running test set &lt;<em>testedPredicate/arity</em>&gt;&quot;) and that they succeed
+  (indicated by &quot;...  All tests succeeded.&quot;).
+  <pre>
+  Running test set &lt;test_testLL1/4&gt; ...
+  All tests succeeded.
+Running test set &lt;unifiableWithMemberOf/4&gt; ...  All tests succeeded.
+
+Running test set &lt;listsUnifiableDisregardingOrder/4&gt; ...  All tests succeeded.
+
+Running test set &lt;noConflict/2&gt; ...  All tests succeeded.
+
+Running test set &lt;trueForAll/3&gt; ...  All tests succeeded.
+
+Running test set &lt;flattenAntecedentTree/4&gt; ...  All tests succeeded.
+
+Running test set &lt;updateIndex/5&gt; ...  All tests succeeded.
+
+Running test set &lt;updateIndices/1&gt; ...  All tests succeeded.
+
+Running test set &lt;query/2&gt; ...
+  All tests succeeded.
+
+Running test set &lt;queryFlattenedAnteListForRule/3&gt; ...
+   rot:poc:premise(p2, philosopher(plato)) a:[1 : unmarried(plato), 2 : male(plato)]
+  Qbc unmarried(plato) bc? fail  All tests succeeded.
+
+Running test set &lt;fireFwdCheck/1&gt; ...  All tests succeeded.
+
+Running test set &lt;fireFwd/2&gt; ...
+
+
+SUCC: 1. Adding premise to empty kb should assert only itself
+
+   FFUR1 al:[1 : unmarried(plato), 2 : male(plato)] at:_189450
+
+
+
+
+  Qbc adult(socrates) bc? fail
+   FFUR1 al:[1 : adult(socrates), 2 : human(socrates)] at:_191808
+  Qbc adult(socrates) bc? fail
+  Qbc notBittenByVampire(socrates) bc? fail
+   FFUR1 al:[1 : human(socrates), 2 : notBittenByVampire(socrates)] at:_191808
+  Qbc notBittenByVampire(socrates) bc? fail
+   FFUR1 al:[1 : selfAware(socrates)] at:_191393
+
+FAIL: 2. Adding premise to kb with rules and other necessary premises should trigger all expected conclusions
+  missing asserts: [conclusion(mortal(socrates), [r1, mortal(socrates), [[1, [conclusion, human(socrates), [r3, human(socrates), [[1, [p2, selfAware(...), ...]]]]]], [2, [p1, notBittenByVampire(socrates), []]]]])]
+
+
+
+
+
+
+   FFUR1 al:[1 : unelectrolycized5(plato), 2 : male5(plato)] at:_197033
+   FFUR1 al:[1 : unmarried5(plato), 2 : male5(plato)] at:_197032
+
+
+  All tests succeeded.
+
+Running test set &lt;isMotivatedAbout/3&gt; ...
+
+
+   FFUR1 al:[1 : likeThat(fred, eating(fred, iceCream), 1)] at:_380381
+
+SUCC: 1. Liking indicates motivation
+
+
+   FFUR1 al:[1 : obligedToEnsure(barney, completes(bamBam, homework), 1)] at:_381601
+
+SUCC: 2. Obligation indicates motivation  All tests succeeded.
+
+Running test set &lt;noConflictingIntent/3&gt; ...
+
+
+
+  Qbc intendWhenFor(fred, fred do _378594, _378589, _378579, 1) bc? fail
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  All tests succeeded.
+
+Running test set &lt;triggerIntentRule&gt; ...
+
+
+
+
+
+
+  Qbc believe(fred, not incipiently(eating(fred, iceCream)), 1) bc? fail
+   FFUR1 al:[1 : isMotivatedAbout(fred, eating(fred, iceCream), 1), 2 : believe(fred, not incipiently(eating(fred, iceCream)), 1), 3 : believe(fred, causeWhenEnabledBy([_394978 : (_394981 do _394982)], eating(fred, iceCream), [_394986 : _394987]), 1), 4 : believe(fred, eventually(_394987), 1), 5 : compute(var(_394981) ; _394981 = fred), 6 : compute(query(noConflictingIntent(fred, eating(fred, iceCream), 1), allowBackchaining, _395035)), 7 : compute(pairwiseSum(1, 1, _395006))] at:_395084
+  Qbc believe(fred, not incipiently(eating(fred, iceCream)), 1) bc? fail
+   FFUR1 al:[1 : likeThat(fred, eating(fred, iceCream), 1)] at:_392361
+
+  Qbc believe(fred, causeWhenEnabledBy([_394835 : (_394838 do _394839)], eating(fred, iceCream), [_394843 : _394844]), 1) bc? fail
+   FFUR1 al:[1 : isMotivatedAbout(fred, eating(fred, iceCream), 1), 2 : believe(fred, not incipiently(eating(fred, iceCream)), 1), 3 : believe(fred, causeWhenEnabledBy([_394835 : (_394838 do _394839)], eating(fred, iceCream), [_394843 : _394844]), 1), 4 : believe(fred, eventually(_394844), 1), 5 : compute(var(_394838) ; _394838 = fred), 6 : compute(query(noConflictingIntent(fred, eating(fred, iceCream), 1), allowBackchaining, _394892)), 7 : compute(pairwiseSum(1, 1, _394863))] at:_394941
+  Qbc believe(fred, causeWhenEnabledBy([_394835 : (_394838 do _394839)], eating(fred, iceCream), [_394843 : _394844]), 1) bc? fail
+
+  Qbc intendWhenFor(fred, fred do _398121, _398116, _398106, 1) bc? fail
+  All tests succeeded.
+//C/Documents and Settings/pautlerd/Desktop/Projects/EclipseWorkspace/ATOM/main.pro compiled 69868 bytes in 0.19 seconds
+  </pre>
+  
+  
+  <h2><a name="credits">Credits</a></h2>
+  Implemented by David Pautler.
+  <p>Last updated 3 December 2009</p>
+  <p>Institute of High Performance Computing, Singapore &copy; 2009</p>
+ </body>
+</html>

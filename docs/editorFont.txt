@@ -1,0 +1,7 @@
+When you view the code in this project, the indentation may appear off. If so, this is probably due to your using a different
+font than I do. (I don't like the default Courier, and chose Consolas because it looks better to me while making the
+difference between ones and Ls clear, punctuation like periods and commas is easy to see, etc.)
+
+Here's how to make the change:
+
+Window | Preferences | General | Appearance | Colors & Fonts => Basic | Text Font => Change... => Consolas
